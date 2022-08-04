@@ -2336,7 +2336,7 @@ fsst.lambda <- function(n, omega.i, beta.n, beta.star, lpmodel, R.succ,
       }
       Tn <- sort(fsst.cone.return$cone.n.list)
       q <- Tn[ceiling(length(Tn) * (1 - alpha))]
-      lambda <- min(1, 1/q)
+      lambda <- 1/max(q,1)
    }
 
    return(list(lambda = lambda,

@@ -25,14 +25,14 @@
 #' @export
 #'
 lpmodel.eval <- function(data, obj, i) {
-  if (class(obj) == "function") {
+  if (inherits(obj,"function")) {
     obj.eval <- obj(data)
-  } else if (class(obj) == "list") {
+  } else if (inherits(obj,"list")) {
     obj.eval <- obj[[i]]
   } else if (!is.matrix(obj) & !is.data.frame(obj) &
              !methods::is(obj, "sparseMatrix")) {
     obj.eval <- matrix(obj, nrow = 1)
-  } else if (class(obj) == "data.frame") {
+  } else if (inherits(obj,"data.frame")) {
     obj.eval <- as.matrix(obj)
   } else {
     obj.eval <- obj
@@ -414,7 +414,7 @@ lpmodel.anylist <- function(lpmodel) {
   # Check the objects in 'lpmodel' one-by-one
   names <- c("A.obs", "A.shp", "A.tgt", "beta.obs", "beta.shp")
   for (i in names) {
-    if (class(lpmodel[[i]]) == "list") {
+    if (inherits(lpmodel[[i]],"list")) {
       any.list <- TRUE
       if (is.null(len)) {
         len <- length(lpmodel[[i]])

@@ -966,8 +966,8 @@ check.matrix <- function(mat, mat.name, mat.cat, inside.list) {
                       "'lpmodel' has to be one of the followings: data.frame,",
                       "matrix, numeric, or sparseMatrix.")
 
-  if (class(mat) == "data.frame" | class(mat) == "matrix" |
-      class(mat) == "numeric") {
+  if (inherits(mat,"data.frame") | inherits(mat,"matrix") |
+      inherits(mat,"numeric")) {
     if (is.null(dim(mat))) {
       if (mat.name %in% c("A.obs", "A.shp", "A.tgt")) {
         mat.update <- matrix(mat, nrow = 1)
@@ -999,7 +999,7 @@ check.matrix <- function(mat, mat.name, mat.cat, inside.list) {
       mat.update <- NULL
       return(list(mat.update = mat.update,
                   err.ind = 1))
-    } else if (class(mat) == "list") {
+    } else if (inherits(mat,"list")) {
       mat.update <- NULL
       return(list(mat.update = mat.update,
                   err.ind = 1))
@@ -1304,4 +1304,19 @@ check.initb <- function(init.b, name.var, bd) {
 
   return(list(lb = lb,
               ub = ub))
+}
+
+
+checkupdate.matrixroot <- function(mat, matname, method, tol) {
+
+  mat.sqrt=method(mat)
+
+  if (sqrt(sum(sum((mat-mat.sqrt%*%mat.sqrt)^2)))>tol){
+
+    mat.sqrt=expm::sqrtm(mat)
+
+  }
+
+  return(mat.sqrt)
+
 }
